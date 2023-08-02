@@ -2,22 +2,29 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CustomNavbar = () => {
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   const authLinks = (
-    <Nav.Link as={NavLink} to="/dashboard">
-      Dashboard
-    </Nav.Link>
+    <>
+      <Nav.Link as={NavLink} to="/dashboard">
+        Dashboard
+      </Nav.Link>
+      <Nav.Link as={NavLink} to="*!">
+        Logout
+      </Nav.Link>
+    </>
   );
 
   const guestLinks = (
     <>
-      <Nav.Link as={NavLink} to="/register">
-        Register
-      </Nav.Link>
       <Nav.Link as={NavLink} to="/login">
         Login
+      </Nav.Link>
+      <Nav.Link as={NavLink} to="/register">
+        Register
       </Nav.Link>
     </>
   );
@@ -32,8 +39,7 @@ const CustomNavbar = () => {
           <Nav.Link as={NavLink} to="/">
             Home
           </Nav.Link>
-          {authLinks}
-          {guestLinks}
+          {isAuthenticated ? authLinks : guestLinks}
         </Nav>
       </Container>
     </Navbar>
